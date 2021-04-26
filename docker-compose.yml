@@ -1,0 +1,30 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment: 
+      SA_PASSWORD: "<PassWord>"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+    volumes:
+      - D:\School\2.2\Backend\Eindproject\db\data:/var/opt/mssql/data
+
+  api:
+    image: backenduitleendienst
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment: 
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - 5000:5000
+      - 5001:5001
+    depends_on:
+      - db
+    volumes:
+      - ~/.vsdgb:/remote_debugger:rw
