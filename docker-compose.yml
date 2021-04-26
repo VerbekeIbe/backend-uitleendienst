@@ -11,7 +11,7 @@ services:
     ports:
       - 1433:1433
     volumes:
-      - D:\School\2.2\Backend\Eindproject\db\data:/var/opt/mssql/data
+      - .\db\data:/var/opt/mssql/data
 
   api:
     image: backenduitleendienst
