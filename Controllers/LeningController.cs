@@ -1,3 +1,4 @@
+using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,23 @@ namespace backend_uitleendienst.Controllers
         }
 
 
+        [HttpGet]
+        [Route("/lening/pending")]
+        public ActionResult<List<Lening>> GetPendingLeningen(){
+            var pending = new List<Lening>();
+            foreach(Lening l in _leningen){
+                if(l.Pending == true){
+                    pending.Add(l);
+                }
+            }
+
+            if(pending == null){
+                return new NotFoundResult();
+            }else {
+                return pending;
+            }
+
+        }
 
         
         [HttpPost]
@@ -118,7 +136,6 @@ namespace backend_uitleendienst.Controllers
                 return materiaal;
             }
         }
-        
 
 
     }
