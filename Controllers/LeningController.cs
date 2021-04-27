@@ -124,6 +124,28 @@ namespace backend_uitleendienst.Controllers
             return new OkObjectResult(_leners);
         }
 
+        [HttpPost]
+        [Route("/leners/update")]
+        public ActionResult<List<Lener>> UpdateLeners(Lener toAdd){
+            if(toAdd == null){
+                return new BadRequestResult();
+            }
+
+            Lener exists = _leners.Find(l => l.LenerId == toAdd.LenerId);
+
+            if(exists != null){
+                exists.Naam = toAdd.Naam;
+                exists.Voornaam = toAdd.Voornaam;
+                exists.Email = toAdd.Email;
+            }else{
+                toAdd.LenerId = Guid.NewGuid();
+                _leners.Add(toAdd);
+            }
+
+            return _leners;
+
+        }
+
 
         [HttpGet]
         [Route("/materiaal")]
@@ -150,5 +172,66 @@ namespace backend_uitleendienst.Controllers
         }
 
 
+        [HttpPost]
+        [Route("/materiaal/add")]
+        public ActionResult<List<Materiaal>> AddMateriaal(Materiaal toAdd){
+            if(toAdd == null){
+                return new BadRequestResult();
+            }
+
+            Materiaal exists = _materiaal.Find(m => m.MateriaalId == toAdd.MateriaalId);
+
+            if(exists != null){
+                 
+                exists.Stock += toAdd.Stock;
+            }else
+            {
+                toAdd.MateriaalId = Guid.NewGuid();
+                _materiaal.Add(toAdd);
+            }
+            
+
+            return _materiaal;
+        }
+
+        [HttpDelete]
+        [Route("/materiaal/{materiaalId}")]
+        public ActionResult<List<Materiaal>> DeleteMateriaal(Guid materiaalId){
+
+            Materiaal toRemove = _materiaal.Find(m => m.MateriaalId == materiaalId);
+
+            if(toRemove != null){
+                _materiaal.Remove(toRemove);
+            }else
+            {
+                return new BadRequestResult();
+            }
+
+            return _materiaal;
+
+        }
+
+
+        [HttpPost]
+        [Route("/materiaal/update")]
+        public ActionResult<List<Materiaal>> UpdateMateriaal(Materiaal toUpdate){
+            if(toUpdate == null){
+                return new BadRequestResult();
+            }
+
+            Materiaal exists = _materiaal.Find(m => m.MateriaalId == toUpdate.MateriaalId);
+
+            if(exists != null)
+            {
+                exists.Stock -= toUpdate.Stock;
+
+            }else
+            {
+                return new BadRequestResult();
+            }
+
+            return _materiaal;
+        }
+            
     }
 }

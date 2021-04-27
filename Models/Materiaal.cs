@@ -6,7 +6,6 @@ namespace backend_uitleendienst.Models
     public class Materiaal
     {
 
-        [Required]
         public Guid MateriaalId { get; set; }
 
         [Required]

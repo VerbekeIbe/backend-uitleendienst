@@ -6,7 +6,7 @@ namespace backend_uitleendienst.Models
     public class Lener
     {
 
-        [Required]
+        
         public Guid LenerId { get; set; }
 
         [Required]
