@@ -66,6 +66,27 @@ namespace backend_uitleendienst.Controllers
                     Categorie = "Klein",
                     Drempel = 2
                 });
+                _materiaal.Add(new Materiaal(){
+                    MateriaalId = Guid.NewGuid(),
+                    Naam = "Bakken Bier",
+                    Stock = 1,
+                    Categorie = "Bar",
+                    Drempel = 4
+                });
+                _materiaal.Add(new Materiaal(){
+                    MateriaalId = Guid.NewGuid(),
+                    Naam = "Set Stratego Kaartjes",
+                    Stock = 2,
+                    Categorie = "Klein",
+                    Drempel = 4
+                });
+                _materiaal.Add(new Materiaal(){
+                    MateriaalId = Guid.NewGuid(),
+                    Naam = "Bekertjes",
+                    Stock = 4,
+                    Categorie = "Klein",
+                    Drempel = 4
+                });
             }
         
             if(_leningen == null){
@@ -248,6 +269,29 @@ namespace backend_uitleendienst.Controllers
             }
 
             return _materiaal;
+        }
+
+        [HttpGet]
+        [Route("/materiaal/shoppinglist")]
+
+        public ActionResult<List<Materiaal>> ShoppingList(){
+
+            var ShoppingList = new List<Materiaal>();
+
+            foreach(Materiaal i in _materiaal)
+            {
+                if(i.Stock <= i.Drempel){
+                    ShoppingList.Add(i);
+                }
+            }
+
+            if(ShoppingList == null){
+                return new NotFoundObjectResult(ShoppingList);
+            }else {
+                return ShoppingList;
+            }
+
+            
         }
             
     }
