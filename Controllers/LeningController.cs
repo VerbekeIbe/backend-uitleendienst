@@ -146,6 +146,23 @@ namespace backend_uitleendienst.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("/leners/{lenerId}")]
+
+        public ActionResult<List<Lener>> DeleteLener(Guid lenerId){
+
+            Lener toRemove = _leners.Find(l => l.LenerId == lenerId);
+
+            if(toRemove != null){
+                _leners.Remove(toRemove);
+            }else
+            {
+                return new BadRequestResult();
+            }
+
+            return _leners;
+        }
+
 
         [HttpGet]
         [Route("/materiaal")]
