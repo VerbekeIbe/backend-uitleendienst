@@ -104,6 +104,18 @@ namespace backend_uitleendienst.Controllers
             _leningen.Add(newLening);
             return newLening;
         }
+
+
+        [HttpPost]
+        [Route("/lening/close/{leningIdToClose}")]
+        public ActionResult<Lening> CloseLening(Guid leningIdToClose){
+            Lening toClose = _leningen.Find(lening => lening.LeningId == leningIdToClose);
+            if(toClose.Pending == true){
+                toClose.Pending = false;
+            }
+
+            return new OkObjectResult(toClose);
+        }
         
         
         [HttpGet]
