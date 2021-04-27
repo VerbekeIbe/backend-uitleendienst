@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj": {}
+    "d:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj": {}
   },
   "projects": {
-    "D:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj": {
+    "d:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj",
+        "projectUniqueName": "d:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj",
         "projectName": "backend-uitleendienst",
-        "projectPath": "D:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj",
+        "projectPath": "d:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\backend-uitleendienst.csproj",
         "packagesPath": "C:\\Users\\ibeve\\.nuget\\packages\\",
-        "outputPath": "D:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\obj\\",
+        "outputPath": "d:\\school\\2.2\\Backend\\Eindproject\\backend-uitleendienst\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
