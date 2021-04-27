@@ -27,3 +27,4 @@ D:\school\2.2\Backend\Eindproject\backend-uitleendienst\obj\Debug\net5.0\backend
 D:\school\2.2\Backend\Eindproject\backend-uitleendienst\obj\Debug\net5.0\ref\backend-uitleendienst.dll
 D:\school\2.2\Backend\Eindproject\backend-uitleendienst\obj\Debug\net5.0\backend-uitleendienst.pdb
 D:\school\2.2\Backend\Eindproject\backend-uitleendienst\obj\Debug\net5.0\backend-uitleendienst.genruntimeconfig.cache
+D:\school\2.2\Backend\Eindproject\backend-uitleendienst\bin\Debug\net5.0\appsettings.Docker.json
