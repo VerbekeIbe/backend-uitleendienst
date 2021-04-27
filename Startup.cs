@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend_uitleendienst.Configuration;
+using backend_uitleendienst.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +29,10 @@ namespace backend_uitleendienst
         public void ConfigureServices(IServiceCollection services)
         {
 
+            
+            services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
+            services.AddDbContext<RegistrationContext>();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using backend_uitleendienst.Models;
 using Microsoft.AspNetCore.Mvc;
+using backend_uitleendienst.Data;
 
 namespace backend_uitleendienst.Controllers
 {
@@ -18,81 +19,11 @@ namespace backend_uitleendienst.Controllers
         private static List<Lening> _leningen;
 
 
-        public LeningController()
-        {
-            if(_leners == null){
-                _leners = new List<Lener>();
-                _leners.Add(new Lener(){
-                    LenerId = Guid.NewGuid(),
-                    Naam = "Verbeke",
-                    Voornaam = "Ibe",
-                    Email = "ibeverbeke@gmail.com"
-                });
-                _leners.Add(new Lener(){
-                    LenerId = Guid.NewGuid(),
-                    Naam = "Verbeke",
-                    Voornaam = "Briek",
-                    Email = "briekverbeke@gmail.com"
-                });
-                _leners.Add(new Lener(){
-                    LenerId = Guid.NewGuid(),
-                    Naam = "Verdonck",
-                    Voornaam = "Robbe",
-                    Email = "robbeverdonck003@gmail.com"
-                });
-            }
+    private RegistrationContext _context;
 
-        
-            if(_materiaal == null){
-                _materiaal = new List<Materiaal>();
-                _materiaal.Add(new Materiaal(){
-                    MateriaalId = Guid.NewGuid(),
-                    Naam = "Pak Wit Papier",
-                    Stock = 4,
-                    Categorie = "Klein",
-                    Drempel = 1
-                });
-                _materiaal.Add(new Materiaal(){
-                    MateriaalId = Guid.NewGuid(),
-                    Naam = "Pak Schuursponsjes",
-                    Stock = 6,
-                    Categorie = "Keuken",
-                    Drempel = 1
-                });
-                _materiaal.Add(new Materiaal(){
-                    MateriaalId = Guid.NewGuid(),
-                    Naam = "Voetbal",
-                    Stock = 5,
-                    Categorie = "Klein",
-                    Drempel = 2
-                });
-                _materiaal.Add(new Materiaal(){
-                    MateriaalId = Guid.NewGuid(),
-                    Naam = "Bakken Bier",
-                    Stock = 1,
-                    Categorie = "Bar",
-                    Drempel = 4
-                });
-                _materiaal.Add(new Materiaal(){
-                    MateriaalId = Guid.NewGuid(),
-                    Naam = "Set Stratego Kaartjes",
-                    Stock = 2,
-                    Categorie = "Klein",
-                    Drempel = 4
-                });
-                _materiaal.Add(new Materiaal(){
-                    MateriaalId = Guid.NewGuid(),
-                    Naam = "Bekertjes",
-                    Stock = 4,
-                    Categorie = "Klein",
-                    Drempel = 4
-                });
-            }
-        
-            if(_leningen == null){
-                _leningen = new List<Lening>();
-            }   
-        
+        public LeningController(RegistrationContext context)
+        {
+            _context = context;        
         }
 
 
