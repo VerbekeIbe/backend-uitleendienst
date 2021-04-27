@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using backend_uitleendienst.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,7 +48,7 @@ namespace backend_uitleendienst.Controllers
                     MateriaalId = Guid.NewGuid(),
                     Naam = "Pak Wit Papier",
                     Stock = 4,
-                    Categorie = "Klein Materiaal",
+                    Categorie = "Klein",
                     Drempel = 1
                 });
                 _materiaal.Add(new Materiaal(){
@@ -61,7 +62,7 @@ namespace backend_uitleendienst.Controllers
                     MateriaalId = Guid.NewGuid(),
                     Naam = "Voetbal",
                     Stock = 5,
-                    Categorie = "Klein Materiaal",
+                    Categorie = "Klein",
                     Drempel = 2
                 });
             }
@@ -87,20 +88,37 @@ namespace backend_uitleendienst.Controllers
         }
         
         
-        
-        [Route("/leners")]
         [HttpGet]
+        [Route("/leners")]
         public ActionResult<List<Lener>> GetLeners(){
             return new OkObjectResult(_leners);
         }
 
-        [Route("/materiaal")]
+
         [HttpGet]
+        [Route("/materiaal")]
         public ActionResult<List<Materiaal>> GetMateriaal(){
             return new OkObjectResult(_materiaal);
         }
 
-
+        [HttpGet]
+        [Route("/materiaal/{categorie}")]
+        public ActionResult<List<Materiaal>> GetMateriaalByCategorie(string categorie){
+            var materiaal = new List<Materiaal>();
+            foreach(Materiaal i in _materiaal)
+            {
+                if(i.Categorie == categorie){
+                    materiaal.Add(i);
+                }
+            }
+            
+            if(materiaal == null){
+                return new NotFoundObjectResult(categorie);
+            }else {
+                return materiaal;
+            }
+        }
+        
 
 
     }
