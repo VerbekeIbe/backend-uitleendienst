@@ -5,6 +5,8 @@ using System.Linq;
 using backend_uitleendienst.Models;
 using Microsoft.AspNetCore.Mvc;
 using backend_uitleendienst.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace backend_uitleendienst.Controllers
 {
@@ -72,8 +74,8 @@ namespace backend_uitleendienst.Controllers
         
         [HttpGet]
         [Route("/leners")]
-        public ActionResult<List<Lener>> GetLeners(){
-            return new OkObjectResult(_leners);
+        public async Task<List<Lener>> GetLeners(){
+            return await _context.Leners.ToListAsync();
         }
 
         [HttpPost]
@@ -118,49 +120,57 @@ namespace backend_uitleendienst.Controllers
 
         [HttpGet]
         [Route("/materiaal")]
-        public ActionResult<List<Materiaal>> GetMateriaal(){
-            return new OkObjectResult(_materiaal);
+        public async Task<List<Materiaal>> GetMateriaal(){
+            return await _context.Materiaal.ToListAsync();
         }
 
         [HttpGet]
         [Route("/materiaal/{categorie}")]
-        public ActionResult<List<Materiaal>> GetMateriaalByCategorie(string categorie){
-            var materiaal = new List<Materiaal>();
-            foreach(Materiaal i in _materiaal)
-            {
-                if(i.Categorie == categorie){
-                    materiaal.Add(i);
-                }
+        public async Task<ActionResult<List<Materiaal>>> GetMateriaalByCategorie(string categorie){
+
+            try{
+                return await _context.Materiaal.Where(m => m.Categorie == categorie).ToListAsync();
             }
+            catch(Exception ex){
+                return new StatusCodeResult(500);
+            }
+
+
+
+
+
+
+            // var materiaal = new List<Materiaal>();
+            // foreach(Materiaal i in _materiaal)
+            // {
+            //     if(i.Categorie == categorie){
+            //         materiaal.Add(i);
+            //     }
+            // }
             
-            if(materiaal == null){
-                return new NotFoundObjectResult(categorie);
-            }else {
-                return materiaal;
-            }
+            // if(materiaal == null){
+            //     return new NotFoundObjectResult(categorie);
+            // }else {
+            //     return materiaal;
+            // }
         }
 
 
         [HttpPost]
         [Route("/materiaal/add")]
-        public ActionResult<List<Materiaal>> AddMateriaal(Materiaal toAdd){
+        public async Task<ActionResult<Materiaal>> AddMateriaal(Materiaal toAdd){
             if(toAdd == null){
                 return new BadRequestResult();
             }
 
-            Materiaal exists = _materiaal.Find(m => m.MateriaalId == toAdd.MateriaalId);
-
-            if(exists != null){
-                 
-                exists.Stock += toAdd.Stock;
-            }else
-            {
-                toAdd.MateriaalId = Guid.NewGuid();
-                _materiaal.Add(toAdd);
+            try{
+                await _context.Materiaal.AddAsync(toAdd);
+                await _context.SaveChangesAsync();
+                return toAdd;
             }
-            
-
-            return _materiaal;
+            catch(Exception ex){
+                return new StatusCodeResult(500);
+            }
         }
 
         [HttpDelete]
