@@ -5,11 +5,14 @@ namespace backend_uitleendienst.Models
 {
     public class Materiaal
     {
+
+        [Required]
         public Guid MateriaalId { get; set; }
 
         [Required]
         public string Naam { get; set; }
 
+        [Required]
         public int Stock { get; set; }
 
         [Required]
