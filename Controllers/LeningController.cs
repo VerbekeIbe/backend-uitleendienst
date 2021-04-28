@@ -31,9 +31,9 @@ namespace backend_uitleendienst.Controllers
 
         [HttpGet]
         [Route("/lening/pending")]
-        public ActionResult<List<Lening>> GetPendingLeningen(){
+        public async Task<ActionResult<List<Lening>>> GetPendingLeningen(){
             var pending = new List<Lening>();
-            foreach(Lening l in _leningen){
+            foreach(Lening l in _context.Leningen){
                 if(l.Pending == true){
                     pending.Add(l);
                 }
@@ -50,25 +50,34 @@ namespace backend_uitleendienst.Controllers
         
         [HttpPost]
         [Route("/lening")]      
-        public ActionResult<Lening> AddLening(Lening newLening){
+        public async Task<ActionResult<Lening>> AddLening(Lening newLening){
 
             newLening.LeningId = Guid.NewGuid();
             newLening.Pending = true;
             newLening.Date = DateTime.Today;
-            _leningen.Add(newLening);
-            return newLening;
+
+            try{
+                await _context.Leningen.AddAsync(newLening);
+                await _context.SaveChangesAsync();
+                return newLening;
+            }
+            catch(Exception ex){
+                return new StatusCodeResult(500);
+            }
+            
         }
 
 
         [HttpPost]
         [Route("/lening/close/{leningIdToClose}")]
         public ActionResult<Lening> CloseLening(Guid leningIdToClose){
-            Lening toClose = _leningen.Find(lening => lening.LeningId == leningIdToClose);
-            if(toClose.Pending == true){
-                toClose.Pending = false;
-            }
+            Lening toClose = (Lening)_context.Leningen.Where(l => l.LeningId == leningIdToClose);
+            return toClose;
+            // if(toClose.Pending == true){
+            //     toClose.Pending = false;
+            // }
 
-            return new OkObjectResult(toClose);
+            // return new OkObjectResult(toClose);
         }
         
         
@@ -85,7 +94,7 @@ namespace backend_uitleendienst.Controllers
                 return new BadRequestResult();
             }
 
-            Lener exists = _leners.Find(l => l.LenerId == toAdd.LenerId);
+            Lener exists = (Lener)_context.Leners.Where(l => l.LenerId == toAdd.LenerId);
 
             if(exists != null){
                 exists.Naam = toAdd.Naam;
@@ -103,9 +112,9 @@ namespace backend_uitleendienst.Controllers
         [HttpDelete]
         [Route("/leners/{lenerId}")]
 
-        public ActionResult<List<Lener>> DeleteLener(Guid lenerId){
+        public async Task<ActionResult<List<Lener>>> DeleteLener(Guid lenerId){
 
-            Lener toRemove = _leners.Find(l => l.LenerId == lenerId);
+            Lener toRemove = (Lener)_context.Leners.Where(l => l.LenerId == lenerId);
 
             if(toRemove != null){
                 _leners.Remove(toRemove);
@@ -114,7 +123,7 @@ namespace backend_uitleendienst.Controllers
                 return new BadRequestResult();
             }
 
-            return _leners;
+            return await _context.Leners.ToListAsync();
         }
 
 
@@ -163,14 +172,25 @@ namespace backend_uitleendienst.Controllers
                 return new BadRequestResult();
             }
 
-            try{
-                await _context.Materiaal.AddAsync(toAdd);
+            Materiaal exists = (Materiaal)_context.Materiaal.Where(m => m.MateriaalId == toAdd.MateriaalId).First();
+
+            if(exists != null){
+                exists.Stock += toAdd.Stock;
                 await _context.SaveChangesAsync();
                 return toAdd;
+
+            }else{
+                try{
+                    await _context.Materiaal.AddAsync(toAdd);
+                    await _context.SaveChangesAsync();
+                    return toAdd;
+                }
+                catch(Exception ex){
+                    return new StatusCodeResult(500);
+                }
             }
-            catch(Exception ex){
-                return new StatusCodeResult(500);
-            }
+
+            
         }
 
         [HttpDelete]
@@ -215,11 +235,11 @@ namespace backend_uitleendienst.Controllers
         [HttpGet]
         [Route("/materiaal/shoppinglist")]
 
-        public ActionResult<List<Materiaal>> ShoppingList(){
+        public async Task<ActionResult<List<Materiaal>>> ShoppingList(){
 
             var ShoppingList = new List<Materiaal>();
 
-            foreach(Materiaal i in _materiaal)
+            foreach(Materiaal i in _context.Materiaal)
             {
                 if(i.Stock <= i.Drempel){
                     ShoppingList.Add(i);
@@ -227,9 +247,9 @@ namespace backend_uitleendienst.Controllers
             }
 
             if(ShoppingList == null){
-                return new NotFoundObjectResult(ShoppingList);
+                 return new NotFoundObjectResult(ShoppingList);
             }else {
-                return ShoppingList;
+                 return ShoppingList;
             }
 
             
