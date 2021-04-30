@@ -43,21 +43,21 @@ namespace backend_uitleendienst.Migrations
                     b.HasData(
                         new
                         {
-                            LenerId = new Guid("a1239221-2ed4-4ade-9ce7-bc8f3919452f"),
+                            LenerId = new Guid("7653ca70-8e38-4c3a-af36-6bb0a3cb727f"),
                             Email = "ibeverbeke@gmail.com",
                             Naam = "Verbeke",
                             Voornaam = "Ibe"
                         },
                         new
                         {
-                            LenerId = new Guid("d0c69252-9673-4779-bd9c-bbbdcd733dd9"),
+                            LenerId = new Guid("d709a6a5-1863-4922-83eb-7f0399c6c7f7"),
                             Email = "briekverbeke@gmail.com",
                             Naam = "Verbeke",
                             Voornaam = "Briek"
                         },
                         new
                         {
-                            LenerId = new Guid("0fec10f8-30a2-411e-bebb-130b076ddf3f"),
+                            LenerId = new Guid("eb1ba35d-c03b-4e9a-802f-c228abdcac45"),
                             Email = "robbeverdonck003@gmail.com",
                             Naam = "Verdonck",
                             Voornaam = "Robbe"
@@ -117,7 +117,7 @@ namespace backend_uitleendienst.Migrations
                     b.HasData(
                         new
                         {
-                            MateriaalId = new Guid("53f01f4a-0586-4859-a6df-a1d0045e62a8"),
+                            MateriaalId = new Guid("cb18b43d-a701-426f-b355-e40da34d1a38"),
                             Categorie = "Klein",
                             Drempel = 1,
                             Naam = "Pak Wit Papier",
@@ -125,7 +125,7 @@ namespace backend_uitleendienst.Migrations
                         },
                         new
                         {
-                            MateriaalId = new Guid("f9f211a4-7c7f-4cbd-a063-0eee6f614df5"),
+                            MateriaalId = new Guid("5afc7017-9d37-41f1-bb46-42e8e8dddfcd"),
                             Categorie = "Keuken",
                             Drempel = 1,
                             Naam = "Pak Schuursponsjes",
@@ -133,7 +133,7 @@ namespace backend_uitleendienst.Migrations
                         },
                         new
                         {
-                            MateriaalId = new Guid("479880c8-effa-4681-abba-106e9a987995"),
+                            MateriaalId = new Guid("c6017e86-80b3-48b3-a43f-447ad6a7df88"),
                             Categorie = "Klein",
                             Drempel = 2,
                             Naam = "Voetbal",
@@ -141,7 +141,7 @@ namespace backend_uitleendienst.Migrations
                         },
                         new
                         {
-                            MateriaalId = new Guid("f8cd3eef-2535-4065-8fe5-994261a31c90"),
+                            MateriaalId = new Guid("58ffc5f8-9952-4704-87ae-4f246989debd"),
                             Categorie = "Bar",
                             Drempel = 4,
                             Naam = "Bakken Bier",
@@ -149,7 +149,7 @@ namespace backend_uitleendienst.Migrations
                         },
                         new
                         {
-                            MateriaalId = new Guid("93ebaf7e-69f6-4d1d-848a-f077ed69663d"),
+                            MateriaalId = new Guid("1b7235e4-3e02-4b15-bc82-1dfbdb24ba54"),
                             Categorie = "Groot",
                             Drempel = 1,
                             Naam = "Zak Kolen BBQ",

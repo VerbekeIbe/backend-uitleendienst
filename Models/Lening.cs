@@ -18,7 +18,11 @@ namespace backend_uitleendienst.Models
         [Required]
         public Guid MateriaalId { get; set; }
 
+        public Materiaal Materiaal { get; set; }
+
         [Required]
         public Guid LenerId { get; set; }
+
+        public Lener Lener { get; set; }
     }
 }

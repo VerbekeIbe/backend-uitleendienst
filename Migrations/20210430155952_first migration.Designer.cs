@@ -10,8 +10,8 @@ using backend_uitleendienst.Data;
 namespace backend_uitleendienst.Migrations
 {
     [DbContext(typeof(RegistrationContext))]
-    [Migration("20210427194212_first")]
-    partial class first
+    [Migration("20210430155952_first migration")]
+    partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,29 @@ namespace backend_uitleendienst.Migrations
                     b.HasKey("LenerId");
 
                     b.ToTable("Leners");
+
+                    b.HasData(
+                        new
+                        {
+                            LenerId = new Guid("7653ca70-8e38-4c3a-af36-6bb0a3cb727f"),
+                            Email = "ibeverbeke@gmail.com",
+                            Naam = "Verbeke",
+                            Voornaam = "Ibe"
+                        },
+                        new
+                        {
+                            LenerId = new Guid("d709a6a5-1863-4922-83eb-7f0399c6c7f7"),
+                            Email = "briekverbeke@gmail.com",
+                            Naam = "Verbeke",
+                            Voornaam = "Briek"
+                        },
+                        new
+                        {
+                            LenerId = new Guid("eb1ba35d-c03b-4e9a-802f-c228abdcac45"),
+                            Email = "robbeverdonck003@gmail.com",
+                            Naam = "Verdonck",
+                            Voornaam = "Robbe"
+                        });
                 });
 
             modelBuilder.Entity("backend_uitleendienst.Models.Lening", b =>
@@ -92,6 +115,48 @@ namespace backend_uitleendienst.Migrations
                     b.HasKey("MateriaalId");
 
                     b.ToTable("Materiaal");
+
+                    b.HasData(
+                        new
+                        {
+                            MateriaalId = new Guid("cb18b43d-a701-426f-b355-e40da34d1a38"),
+                            Categorie = "Klein",
+                            Drempel = 1,
+                            Naam = "Pak Wit Papier",
+                            Stock = 4
+                        },
+                        new
+                        {
+                            MateriaalId = new Guid("5afc7017-9d37-41f1-bb46-42e8e8dddfcd"),
+                            Categorie = "Keuken",
+                            Drempel = 1,
+                            Naam = "Pak Schuursponsjes",
+                            Stock = 6
+                        },
+                        new
+                        {
+                            MateriaalId = new Guid("c6017e86-80b3-48b3-a43f-447ad6a7df88"),
+                            Categorie = "Klein",
+                            Drempel = 2,
+                            Naam = "Voetbal",
+                            Stock = 5
+                        },
+                        new
+                        {
+                            MateriaalId = new Guid("58ffc5f8-9952-4704-87ae-4f246989debd"),
+                            Categorie = "Bar",
+                            Drempel = 4,
+                            Naam = "Bakken Bier",
+                            Stock = 1
+                        },
+                        new
+                        {
+                            MateriaalId = new Guid("1b7235e4-3e02-4b15-bc82-1dfbdb24ba54"),
+                            Categorie = "Groot",
+                            Drempel = 1,
+                            Naam = "Zak Kolen BBQ",
+                            Stock = 4
+                        });
                 });
 #pragma warning restore 612, 618
         }

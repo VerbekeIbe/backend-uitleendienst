@@ -24,19 +24,21 @@ namespace backend_uitleendienst.Controllers
 
         [HttpGet]
         [Route("/lening/pending")]
-        public  ActionResult<List<Lening>> GetPendingLeningen(){
-            var pending = new List<Lening>();
-            foreach(Lening l in _context.Leningen){
-                if(l.Pending == true){
-                    pending.Add(l);
-                }
-            }
+        public async Task<ActionResult<List<Lening>>> GetPendingLeningen(){
+            return await _context.Leningen.Include(m => m.Materiaal).Include(l => l.Lener).Where(l => l.Pending == true).ToListAsync();
 
-            if(pending == null){
-                return new NotFoundResult();
-            }else {
-                return pending;
-            }
+            
+            // foreach(Lening l in _context.Leningen){
+            //     if(l.Pending == true){
+            //         pending.Add(l);
+            //     }
+            // }
+
+            // if(pending == null){
+            //     return new NotFoundResult();
+            // }else {
+            //     return pending;
+            // }
 
         }
 
