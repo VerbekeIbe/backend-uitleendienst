@@ -13,14 +13,7 @@ namespace backend_uitleendienst.Controllers
     [ApiController]
     public class LeningController : ControllerBase
     {
-
-        private static List<Lener> _leners;
-
-        private static List<Materiaal> _materiaal;
-
-        private static List<Lening> _leningen;
-
-
+        
     private RegistrationContext _context;
 
         public LeningController(RegistrationContext context)
@@ -31,7 +24,7 @@ namespace backend_uitleendienst.Controllers
 
         [HttpGet]
         [Route("/lening/pending")]
-        public async Task<ActionResult<List<Lening>>> GetPendingLeningen(){
+        public  ActionResult<List<Lening>> GetPendingLeningen(){
             var pending = new List<Lening>();
             foreach(Lening l in _context.Leningen){
                 if(l.Pending == true){
@@ -70,14 +63,15 @@ namespace backend_uitleendienst.Controllers
 
         [HttpPost]
         [Route("/lening/close/{leningIdToClose}")]
-        public ActionResult<Lening> CloseLening(Guid leningIdToClose){
-            Lening toClose = (Lening)_context.Leningen.Where(l => l.LeningId == leningIdToClose);
-            return toClose;
-            // if(toClose.Pending == true){
-            //     toClose.Pending = false;
-            // }
+        public async  Task<ActionResult<Lening>> CloseLening(Guid leningIdToClose){
+            Lening toClose = _context.Leningen.Where(l => l.LeningId == leningIdToClose).SingleOrDefault();
+            
+            if(toClose.Pending == true){
+                toClose.Pending = false;
+                await _context.SaveChangesAsync();
+            }
 
-            // return new OkObjectResult(toClose);
+            return new OkObjectResult(toClose);
         }
         
         
@@ -89,23 +83,32 @@ namespace backend_uitleendienst.Controllers
 
         [HttpPost]
         [Route("/leners/update")]
-        public ActionResult<List<Lener>> UpdateLeners(Lener toAdd){
+        public async Task<ActionResult<List<Lener>>> UpdateLeners(Lener toAdd){
             if(toAdd == null){
                 return new BadRequestResult();
             }
 
-            Lener exists = (Lener)_context.Leners.Where(l => l.LenerId == toAdd.LenerId);
+            Lener exists = _context.Leners.Where(l => l.LenerId == toAdd.LenerId).SingleOrDefault();
 
             if(exists != null){
                 exists.Naam = toAdd.Naam;
                 exists.Voornaam = toAdd.Voornaam;
                 exists.Email = toAdd.Email;
+                await _context.SaveChangesAsync();
+                
+                return await _context.Leners.ToListAsync();
+
             }else{
-                toAdd.LenerId = Guid.NewGuid();
-                _leners.Add(toAdd);
+                try{
+                    await _context.Leners.AddAsync(toAdd);
+                    await _context.SaveChangesAsync();
+                    return await _context.Leners.ToListAsync();
+                }
+                catch(Exception ex){
+                    return new StatusCodeResult(500);
+                }
             }
 
-            return _leners;
 
         }
 
@@ -114,10 +117,11 @@ namespace backend_uitleendienst.Controllers
 
         public async Task<ActionResult<List<Lener>>> DeleteLener(Guid lenerId){
 
-            Lener toRemove = (Lener)_context.Leners.Where(l => l.LenerId == lenerId);
+            Lener toRemove = _context.Leners.Where(l => l.LenerId == lenerId).SingleOrDefault();
 
             if(toRemove != null){
-                _leners.Remove(toRemove);
+                _context.Leners.Remove(toRemove);
+                await _context.SaveChangesAsync();
             }else
             {
                 return new BadRequestResult();
@@ -143,25 +147,6 @@ namespace backend_uitleendienst.Controllers
             catch(Exception ex){
                 return new StatusCodeResult(500);
             }
-
-
-
-
-
-
-            // var materiaal = new List<Materiaal>();
-            // foreach(Materiaal i in _materiaal)
-            // {
-            //     if(i.Categorie == categorie){
-            //         materiaal.Add(i);
-            //     }
-            // }
-            
-            // if(materiaal == null){
-            //     return new NotFoundObjectResult(categorie);
-            // }else {
-            //     return materiaal;
-            // }
         }
 
 
@@ -172,7 +157,8 @@ namespace backend_uitleendienst.Controllers
                 return new BadRequestResult();
             }
 
-            Materiaal exists = (Materiaal)_context.Materiaal.Where(m => m.MateriaalId == toAdd.MateriaalId).First();
+            Materiaal exists = _context.Materiaal.Where(m => m.MateriaalId == toAdd.MateriaalId).SingleOrDefault();
+
 
             if(exists != null){
                 exists.Stock += toAdd.Stock;
@@ -195,47 +181,49 @@ namespace backend_uitleendienst.Controllers
 
         [HttpDelete]
         [Route("/materiaal/{materiaalId}")]
-        public ActionResult<List<Materiaal>> DeleteMateriaal(Guid materiaalId){
+        public async Task<ActionResult<List<Materiaal>>> DeleteMateriaal(Guid materiaalId){
 
-            Materiaal toRemove = _materiaal.Find(m => m.MateriaalId == materiaalId);
+            Materiaal toRemove = _context.Materiaal.Where(m => m.MateriaalId == materiaalId).SingleOrDefault();
 
             if(toRemove != null){
-                _materiaal.Remove(toRemove);
+                _context.Materiaal.Remove(toRemove);
+                await _context.SaveChangesAsync();
             }else
             {
                 return new BadRequestResult();
             }
 
-            return _materiaal;
+            return await _context.Materiaal.ToListAsync();
 
         }
 
 
         [HttpPost]
         [Route("/materiaal/update")]
-        public ActionResult<List<Materiaal>> UpdateMateriaal(Materiaal toUpdate){
+        public async Task<ActionResult<List<Materiaal>>> UpdateMateriaal(Materiaal toUpdate){
             if(toUpdate == null){
                 return new BadRequestResult();
             }
 
-            Materiaal exists = _materiaal.Find(m => m.MateriaalId == toUpdate.MateriaalId);
+            Materiaal exists = _context.Materiaal.Where(m => m.MateriaalId == toUpdate.MateriaalId).SingleOrDefault();
 
             if(exists != null)
             {
                 exists.Stock -= toUpdate.Stock;
+                await _context.SaveChangesAsync();
+                return await _context.Materiaal.ToListAsync();
 
             }else
             {
                 return new BadRequestResult();
             }
 
-            return _materiaal;
         }
 
         [HttpGet]
         [Route("/materiaal/shoppinglist")]
 
-        public async Task<ActionResult<List<Materiaal>>> ShoppingList(){
+        public ActionResult<List<Materiaal>> ShoppingList(){
 
             var ShoppingList = new List<Materiaal>();
 
