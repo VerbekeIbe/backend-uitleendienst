@@ -25,20 +25,14 @@ namespace backend_uitleendienst.Controllers
         [HttpGet]
         [Route("/lening/pending")]
         public async Task<ActionResult<List<Lening>>> GetPendingLeningen(){
-            return await _context.Leningen.Include(m => m.Materiaal).Include(l => l.Lener).Where(l => l.Pending == true).ToListAsync();
+
+            try{
+                return await _context.Leningen.Include(m => m.Materiaal).Include(l => l.Lener).Where(l => l.Pending == true).ToListAsync();
+            }catch(Exception ex){
+                return new StatusCodeResult(500);
+            }
 
             
-            // foreach(Lening l in _context.Leningen){
-            //     if(l.Pending == true){
-            //         pending.Add(l);
-            //     }
-            // }
-
-            // if(pending == null){
-            //     return new NotFoundResult();
-            // }else {
-            //     return pending;
-            // }
 
         }
 
