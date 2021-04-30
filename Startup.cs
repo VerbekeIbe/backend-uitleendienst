@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using backend_uitleendienst.Configuration;
 using backend_uitleendienst.Data;
 using backend_uitleendienst.Repositories;
+using backend_uitleendienst.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,9 +39,11 @@ namespace backend_uitleendienst
 
             services.AddTransient<IRegistrationContext, RegistrationContext>();
 
-            services.AddTransient<IMateriaalRepository, MateriaalRepository >();
-            services.AddTransient<ILenerRepository, LenerRepository >();
-            services.AddTransient<ILeningRepository, LeningRepository >();
+            services.AddTransient<IMateriaalRepository, MateriaalRepository>();
+            services.AddTransient<ILenerRepository, LenerRepository>();
+            services.AddTransient<ILeningRepository, LeningRepository>();
+
+            services.AddTransient<ILeningService, LeningService>();
 
             services.AddSwaggerGen(c =>
             {
