@@ -37,13 +37,16 @@ namespace backend_uitleendienst
             
             services.AddControllers();
 
-            services.AddTransient<IRegistrationContext, RegistrationContext>();
+            
 
-            services.AddTransient<IMateriaalRepository, MateriaalRepository>();
-            services.AddTransient<ILenerRepository, LenerRepository>();
-            services.AddTransient<ILeningRepository, LeningRepository>();
+            services.AddTransient<IRegistrationContext,RegistrationContext>();
+
+            services.AddTransient<IMateriaalRepository,MateriaalRepository>();
+            services.AddTransient<ILenerRepository,LenerRepository>();
+            services.AddTransient<ILeningRepository,LeningRepository>();
 
             services.AddTransient<ILeningService, LeningService>();
+            
 
             services.AddSwaggerGen(c =>
             {

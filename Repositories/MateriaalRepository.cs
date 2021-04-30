@@ -37,7 +37,6 @@ namespace backend_uitleendienst.Repositories
 
         public async Task<ActionResult<List<Materiaal>>> GetMateriaalByCategorie(string categorie)
         {
-
             try
             {
                 return await _context.Materiaal.Where(m => m.Categorie == categorie).ToListAsync();

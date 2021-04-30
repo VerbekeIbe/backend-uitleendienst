@@ -13,11 +13,10 @@ namespace backend_uitleendienst.Controllers
 {
     [ApiController]
     public class LeningController : ControllerBase
-    {
-        
+    { 
         private ILeningService _leningService;
 
-        public LeningController(LeningService LeningService)
+        public LeningController(ILeningService LeningService)
         {
                    _leningService = LeningService;
         }
@@ -32,73 +31,73 @@ namespace backend_uitleendienst.Controllers
         
         [HttpPost]
         [Route("/lening")]      
-        public async Task<ActionResult<Lening>> AddLening(Lening newLening){
+        public async Task<ActionResult<Lening>> AddNewLening(Lening newLening){
            return await _leningService.AddLening(newLening);  
         }
 
 
         [HttpPost]
         [Route("/lening/close/{leningIdToClose}")]
-        public async  Task<ActionResult<Lening>> CloseLening(Guid leningIdToClose){
+        public async  Task<ActionResult<Lening>> CloseThisLening(Guid leningIdToClose){
             return await _leningService.CloseLening(leningIdToClose);
         }
         
         
         [HttpGet]
         [Route("/leners")]
-        public async Task<List<Lener>> GetLeners(){
+        public async Task<List<Lener>> GetAllLeners(){
             return await _leningService.GetLeners();
         }
 
         [HttpPost]
         [Route("/leners/update")]
-        public async Task<ActionResult<List<Lener>>> UpdateLeners(Lener toAdd){
+        public async Task<ActionResult<List<Lener>>> UpdateThisLener(Lener toAdd){
             return await _leningService.UpdateLeners(toAdd);
         }
 
         [HttpDelete]
         [Route("/leners/{lenerId}")]
-        public async Task<ActionResult<List<Lener>>> DeleteLener(Guid lenerId){
+        public async Task<ActionResult<List<Lener>>> DeleteThisLener(Guid lenerId){
             return await _leningService.DeleteLener(lenerId);
         }
 
 
         [HttpGet]
         [Route("/materiaal")]
-        public async Task<List<Materiaal>> GetMateriaal(){
+        public async Task<List<Materiaal>> GetAllMateriaal(){
             return await _leningService.GetMateriaal();
         }
 
         [HttpGet]
         [Route("/materiaal/{categorie}")]
-        public async Task<ActionResult<List<Materiaal>>> GetMateriaalByCategorie(string categorie){
+        public async Task<ActionResult<List<Materiaal>>> GetAllMateriaalByCategorie(string categorie){
             return await _leningService.GetMateriaalByCategorie(categorie);
         }
 
 
         [HttpPost]
         [Route("/materiaal/add")]
-        public async Task<ActionResult<Materiaal>> AddMateriaal(Materiaal toAdd){
+        public async Task<ActionResult<Materiaal>> AddNewMateriaal(Materiaal toAdd){
             return await _leningService.AddMateriaal(toAdd);
         }
 
         [HttpDelete]
         [Route("/materiaal/{materiaalId}")]
-        public async Task<ActionResult<List<Materiaal>>> DeleteMateriaal(Guid materiaalId){
+        public async Task<ActionResult<List<Materiaal>>> DeleteThisMateriaal(Guid materiaalId){
             return await _leningService.DeleteMateriaal(materiaalId);
         }
 
 
         [HttpPost]
         [Route("/materiaal/update")]
-        public async Task<ActionResult<List<Materiaal>>> UpdateMateriaal(Materiaal toUpdate){
+        public async Task<ActionResult<List<Materiaal>>> UpdateThisMateriaal(Materiaal toUpdate){
            return await _leningService.UpdateMateriaal(toUpdate);
 
         }
 
         [HttpGet]
         [Route("/materiaal/shoppinglist")]
-        public ActionResult<List<Materiaal>> ShoppingList(){
+        public ActionResult<List<Materiaal>> GetShoppingList(){
             return _leningService.ShoppingList();
         }
             
