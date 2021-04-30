@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend_uitleendienst.Configuration;
 using backend_uitleendienst.Data;
+using backend_uitleendienst.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +35,13 @@ namespace backend_uitleendienst
             services.AddDbContext<RegistrationContext>();
             
             services.AddControllers();
+
+            services.AddTransient<IRegistrationContext, RegistrationContext>();
+
+            services.AddTransient<IMateriaalRepository, MateriaalRepository >();
+            services.AddTransient<ILenerRepository, LenerRepository >();
+            services.AddTransient<ILeningRepository, LeningRepository >();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend_uitleendienst", Version = "v1" });

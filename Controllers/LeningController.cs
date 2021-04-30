@@ -27,7 +27,7 @@ namespace backend_uitleendienst.Controllers
         public async Task<ActionResult<List<Lening>>> GetPendingLeningen(){
 
             try{
-                return await _context.Leningen.Include(m => m.Materiaal).Include(l => l.Lener).Where(l => l.Pending == true).ToListAsync();
+                return await _context.Leningen.Include(l => l.Materiaal).Include(l => l.Lener).Where(l => l.Pending == true).ToListAsync();
             }catch(Exception ex){
                 return new StatusCodeResult(500);
             }
@@ -110,7 +110,6 @@ namespace backend_uitleendienst.Controllers
 
         [HttpDelete]
         [Route("/leners/{lenerId}")]
-
         public async Task<ActionResult<List<Lener>>> DeleteLener(Guid lenerId){
 
             Lener toRemove = _context.Leners.Where(l => l.LenerId == lenerId).SingleOrDefault();
